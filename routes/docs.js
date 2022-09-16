@@ -3,34 +3,36 @@ var router = express.Router();
 
 const docsModel = require("../models/model");
 
-router.get('/', async function(req, res, next) {
+router.get('/', async function(req, res) {
     const docs = await docsModel.getAllDocs();
     const data = {
         data: docs
     };
 
-    res.json(data);
-    }
+    res.status(200).json(data);
+}
 );
 
-router.post('/', async function(req, res, next) {
+router.post('/', async function(req, res) {
     const newDoc = req.body;
     const doc = await docsModel.insertDoc(newDoc);
-        const data = {
+    const data = {
         data: doc
     };
-    res.json(data);
-    }
+
+    res.status(201).json(data);
+}
 );
 
-router.put('/', async function(req, res, next) {
+router.put('/', async function(req, res) {
     const newDoc = req.body;
     const doc = await docsModel.updateDoc(newDoc);
-        const data = {
+    const data = {
         data: doc
     };
-    res.json(data);
-    }
+
+    res.status(201).json(data);
+}
 );
 
 module.exports = router;

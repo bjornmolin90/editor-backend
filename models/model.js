@@ -3,6 +3,7 @@ const database = require("../db/database.js");
 const docs = {
     getAllDocs: async function getAllDocs() {
         let db;
+
         try {
             db = await database.getDb();
 
@@ -44,11 +45,13 @@ const docs = {
 
         try {
             db = await database.getDb();
-
-            const result = await db.collection.updateOne( { name: newDoc.name}, {$set: { content: newDoc.content } })
+            await db.collection.updateOne(
+                { name: newDoc.name},
+                {$set: { content: newDoc.content } }
+            );
 
             return {
-                newDoc
+                ...newDoc
             };
         } catch (error) {
             console.error(error.message);
@@ -56,7 +59,7 @@ const docs = {
             await db.client.close();
         }
     }
-    
+
 };
 
 module.exports = docs;
