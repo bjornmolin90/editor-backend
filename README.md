@@ -11,3 +11,5 @@ npm install --save dotenv
 Import the packages and start the app with npm start.
 
 The only route being used is /docs which handles both get, put and post -requests.
+
+Using git workflow
