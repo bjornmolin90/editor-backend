@@ -1,3 +1,4 @@
+const docModel = require("./models/model")
 const express = require("express");
 const morgan = require('morgan');
 const cors = require('cors');
@@ -13,6 +14,8 @@ const index = require('./routes/index');
 const docs = require('./routes/docs');
 
 app.use(cors());
+
+const httpServer = require("http").createServer(app);
 
 
 // don't show the log when it is test
@@ -61,9 +64,34 @@ app.use((err, req, res, next) => {
     });
 });
 
+const io = require("socket.io")(httpServer, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST", "PUT"]
+    }
+  });
+
+io.sockets.on('connection', function(socket) {
+    
+    socket.on('create', function(room) {
+        socket.rooms.forEach((item) => {
+            if (item !== room && item !== socket.id) {
+                socket.leave(item)
+            }
+        }
+        );
+        socket.join(room);
+    });
+    
+    socket.on('input', async function(data) {
+        socket.to(data._id).emit("ack", data);
+        let test = await docModel.updateDoc(data)
+    });
+
+});
 
 
 // Start up server
-const server = app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+const server = httpServer.listen(port, () => console.log(`Example API listening on port ${port}!`));
 
 module.exports = server;
