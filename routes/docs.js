@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 const docsModel = require("../models/model");
 
@@ -29,6 +29,17 @@ router.put('/', async function(req, res) {
     const doc = await docsModel.updateDoc(newDoc);
     const data = {
         data: doc
+    };
+
+    res.status(201).json(data);
+}
+);
+
+router.put('/user', async function(req, res) {
+    const newUser = req.body;
+    const user = await docsModel.addUser(newUser);
+    const data = {
+        data: user
     };
 
     res.status(201).json(data);

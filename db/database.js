@@ -1,8 +1,7 @@
 const mongo = require("mongodb").MongoClient;
-const collectionName = "docs";
 
 const database = {
-    getDb: async function getDb() {
+    getDb: async function getDb(collectionName = "docs") {
         /* let dsn = `mongodb://localhost:27017/docs`; */
         let info = `${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}`;
         let dsn = `mongodb+srv://${info}@cluster0.ewteqfp.mongodb.net/?retryWrites=true&w=majority`;

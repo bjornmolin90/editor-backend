@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 router.get('/', function(req, res) {
     const data = {
         data: {
-            msg: "EDITOR KMOM02"
+            msg: "EDITOR JS-RAMVERK"
         }
     };
 

@@ -1,4 +1,5 @@
 const database = require("../db/database.js");
+const ObjectId = require('mongodb').ObjectId;
 
 const docs = {
     getAllDocs: async function getAllDocs() {
@@ -58,7 +59,30 @@ const docs = {
         } finally {
             await db.client.close();
         }
-    }
+    },
+
+    addUser: async function addUser(newUser) {
+        let db;
+        console.log(newUser);
+        const id = ObjectId(newUser.id);
+
+        try {
+            db = await database.getDb();
+            const dbReturn = await db.collection.updateOne(
+                { _id: id},
+                { $addToSet: { users: newUser.user } }
+                );
+            console.log(dbReturn)
+                
+            return {
+                ...newUser
+            };
+        } catch (error) {
+            console.error(error.message);
+        } finally {
+            await db.client.close();
+        }
+    },
 
 };
 
