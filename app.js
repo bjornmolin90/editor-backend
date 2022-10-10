@@ -9,6 +9,16 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 1337;
 
+const visual = true;
+const { graphqlHTTP } = require('express-graphql');
+const {
+  GraphQLSchema
+} = require("graphql");
+const RootQueryType = require("./graphql/root.js");
+const schema = new GraphQLSchema({
+    query: RootQueryType
+});
+
 
 const index = require('./routes/index');
 const docs = require('./routes/docs');
@@ -39,6 +49,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use('/', index);
 app.use('/docs', docs);
 app.use('/user', users);
+app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    graphiql: visual,
+}));
 
 // Add routes for 404 and error handling
 // Catch 404 and forward to error handler

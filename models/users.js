@@ -174,6 +174,7 @@ const users = {
             db = await database.getDb("users");
 
             const allUsers = await db.collection.find().toArray();
+            console.log(allUsers)
 
             return allUsers;
         } catch (error) {
